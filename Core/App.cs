@@ -35,7 +35,7 @@ namespace Core
             var task = _ctx.Tasks.FirstOrDefault(t => t.Title.ToLower() == title);
 
             return task != null ? TrackerTask.Create(task) : null;
-        }git 
+        }
 
         public ITrackerTask InsertTask(ITrackerTask task)
         {
