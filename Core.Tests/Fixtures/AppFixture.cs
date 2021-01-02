@@ -1,5 +1,4 @@
 using System;
-using Core.Interfaces;
 using Core.Models;
 
 namespace Core.Tests.Fixtures

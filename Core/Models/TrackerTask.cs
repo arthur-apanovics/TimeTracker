@@ -8,7 +8,7 @@ namespace Core.Models
 {
     public class TrackerTask : TrackerTaskEntity, ITrackerTask
     {
-        public new IList<ITrackerActivity> Activities { get; protected set; } = new List<ITrackerActivity>();
+        public new IList<ITrackerActivity> Activities { get; protected init; } = new List<ITrackerActivity>();
 
         public TimeSpan TotalTime => Activities.Aggregate(
             TimeSpan.Zero,

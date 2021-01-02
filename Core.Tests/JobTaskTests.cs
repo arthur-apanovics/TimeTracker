@@ -1,12 +1,20 @@
 ﻿using Core.Entities;
 using Core.Models;
+using Core.Tests.Fixtures;
 using FluentAssertions;
 using Xunit;
 
 namespace Core.Tests
 {
-    public class TrackerTaskTests
+    public class TrackerTaskTests: IClassFixture<TrackerTaskFixture>
     {
+        private readonly TrackerTaskFixture _taskFixture;
+        
+        public TrackerTaskTests(TrackerTaskFixture taskFixture)
+        {
+            _taskFixture = taskFixture;
+        }
+        
         [Fact]
         public void Init_Constructor_WhenValid()
         {
@@ -19,7 +27,7 @@ namespace Core.Tests
         [Fact]
         public void Init_ActivitiesIsEmpty()
         {
-            var sut = TrackerTask.Create(nameof(Init_ActivitiesIsEmpty));
+            var sut = _taskFixture.EmptyTask;
 
             sut.Activities.Should().BeEmpty();
         }
@@ -27,8 +35,8 @@ namespace Core.Tests
         [Fact]
         public void CreateActivity_CreatesAndAddsActivityFromDescription_WhenValid()
         {
-            var sut = TrackerTask.Create("Test Task");
-            const string activityDescription = "Test activity";
+            var sut = _taskFixture.EmptyTask;
+            var activityDescription = MockData.Slogan;
             var activity = TrackerActivity.Create(activityDescription);
 
             sut.AddActivity(activity);

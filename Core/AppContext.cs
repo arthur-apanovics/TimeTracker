@@ -1,6 +1,4 @@
 ﻿using Core.Entities;
-using Core.Interfaces;
-using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core

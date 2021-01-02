@@ -9,11 +9,11 @@ namespace Core.Tests
 {
     public class ActivityTests : IClassFixture<TrackerTaskFixture>
     {
-        private readonly TrackerTaskFixture _fixture;
+        private readonly TrackerTaskFixture _taskFixture;
 
-        public ActivityTests(TrackerTaskFixture fixture)
+        public ActivityTests(TrackerTaskFixture taskFixture)
         {
-            _fixture = fixture;
+            _taskFixture = taskFixture;
         }
 
         [Theory]

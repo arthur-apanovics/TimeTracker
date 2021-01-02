@@ -4,7 +4,6 @@ using System.Linq;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Core
 {
