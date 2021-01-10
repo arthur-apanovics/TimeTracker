@@ -5,6 +5,24 @@ using System.Text.RegularExpressions;
 
 namespace Core.Tests
 {
+    internal class LimitedListQueue<T> : List<T>
+    {
+        public LimitedListQueue(int capacity): base(capacity)
+        {
+            // always require capacity to be set
+        }
+        
+        public new void Add(T item)
+        {
+            if (Count >= Capacity)
+            {
+                RemoveAt(0);
+            }
+            
+            base.Add(item);
+        }
+    }
+    
     public static class MockData
     {
         private const string MockDataFilename = "mock_data.csv";
@@ -13,7 +31,9 @@ namespace Core.Tests
         private static readonly List<string> Slogans = new();
         private static readonly List<string> Lorems = new();
         private static readonly List<string> LoremSentences = new();
+
         private static readonly Random Seed = new();
+        private static readonly LimitedListQueue<int> UsedItemHashes = new(500);
 
         static MockData()
         {
@@ -24,14 +44,17 @@ namespace Core.Tests
         /// e.g. "Front-line multi-state projection"
         /// </summary>
         public static string Buzzword => GetRandom(Buzzwords);
+
         /// <summary>
         /// e.g. "reinvent frictionless ROI"
         /// </summary>
         public static string Slogan => GetRandom(Slogans);
+
         /// <summary>
         /// e.g. "turpis integer aliquet massa id lobortis convallis"
         /// </summary>
         public static string Lorem => GetRandom(Lorems);
+
         /// <summary>
         /// e.g. "Suspendisse potenti. Cras in purus eu magna vulputate luctus..."
         /// </summary>
@@ -39,7 +62,15 @@ namespace Core.Tests
 
         private static string GetRandom(IList<string> list)
         {
-            return list[Seed.Next(list.Count)];
+            string result;
+            do
+            {
+                result = list[Seed.Next(list.Count)];
+            } while (UsedItemHashes.Contains(result.GetHashCode()));
+
+            UsedItemHashes.Add(result.GetHashCode());
+
+            return result;
         }
 
         private static void LoadMockData()

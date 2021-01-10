@@ -1,4 +1,6 @@
-﻿using Core.Entities;
+﻿using System;
+using System.Linq;
+using Core.Interfaces;
 using Core.Models;
 using Core.Tests.Fixtures;
 using FluentAssertions;
@@ -16,22 +18,31 @@ namespace Core.Tests
         }
         
         [Fact]
-        public void Init_Constructor_WhenValid()
+        public void Create_InitFromTitle_WhenValid()
         {
-            const string expected = nameof(Init_Constructor_WhenValid);
+            const string expected = nameof(Create_InitFromTitle_WhenValid);
             var sut = TrackerTask.Create(expected);
 
+            sut.Id.Should().Be(0);
             sut.Title.Should().Be(expected);
-        }
-        
-        [Fact]
-        public void Init_ActivitiesIsEmpty()
-        {
-            var sut = _taskFixture.EmptyTask;
-
             sut.Activities.Should().BeEmpty();
         }
         
+        [Fact]
+        public void Create_InitFromEntity_WhenValid()
+        {
+            var expected = _taskFixture.TaskWithOneActivity;
+            expected.Id = new Random().Next(1, 100);
+            
+            var sut = TrackerTask.Create(expected);
+
+            sut.Id.Should().Be(expected.Id);
+            sut.Title.Should().Be(expected.Title);
+            sut.Activities.Count.Should().Be(1);
+            sut.Activities.First().Should().BeEquivalentTo(expected.Activities.First());
+            sut.TotalTime.Should().BeCloseTo(expected.TotalTime, 100);
+        }
+
         [Fact]
         public void CreateActivity_CreatesAndAddsActivityFromDescription_WhenValid()
         {

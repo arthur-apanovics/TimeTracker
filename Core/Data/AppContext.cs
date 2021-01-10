@@ -1,7 +1,7 @@
-﻿using Core.Entities;
+﻿using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core
+namespace Core.Data
 {
     public class AppContext : DbContext
     {
@@ -13,10 +13,15 @@ namespace Core
             private set => _instance = value;
         }
 
-        public DbSet<TrackerTaskEntity> Tasks { get; set; }
-        public DbSet<TrackerActivityEntity> Activities { get; set; }
+        public DbSet<TrackerTask> Tasks { get; set; }
+        public DbSet<TrackerActivity> Activities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlite("Data Source=time-tracker.db");
+        {
+            optionsBuilder.UseSqlite("Data Source=time-tracker.db");
+#if DEBUG
+            optionsBuilder.EnableSensitiveDataLogging();
+#endif
+        }
     }
 }

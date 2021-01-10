@@ -1,11 +1,14 @@
-using Core.Entities;
 using Core.Interfaces;
 
 namespace Core.Models
 {
-    public class AppUser : AppUserEntity, IAppUser
+    public class AppUser : IAppUser
     {
-        // email n' stuff will go here
+        public string FullName => $"{FirstName} {LastName}";
+        public string FirstName { get; protected set; }
+        public string LastName { get; protected set; }
+        public string Email { get; protected set; }
+        public string Office { get; protected set; }
 
         public static IAppUser Create(string firstName, string lastName, string email, string office)
         {

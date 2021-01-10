@@ -1,21 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using Core.Entities;
 using Core.Interfaces;
 
 namespace Core.Models
 {
-    public class TrackerTask : TrackerTaskEntity, ITrackerTask
+    public class TrackerTask : ITrackerTask
     {
-        public new IList<ITrackerActivity> Activities { get; protected init; } = new List<ITrackerActivity>();
+        public int Id { get; set; }
 
-        public TimeSpan TotalTime => Activities.Aggregate(
-            TimeSpan.Zero,
-            (tally, next) => tally + next.TimeSpent
-        );
+        [Required] [MaxLength(2048)] public string Title { get; set; }
 
-        public static ITrackerTask Create(string title)
+        [ForeignKey("TaskId")]
+        public virtual List<TrackerActivity> Activities { get; protected set; }
+            = new();
+
+        public TimeSpan TotalTime => Activities.Aggregate(TimeSpan.Zero,
+            (tally, next) => tally + next.TimeSpent);
+
+        public static TrackerTask Create(string title)
         {
             if (string.IsNullOrEmpty(title))
             {
@@ -28,57 +33,74 @@ namespace Core.Models
             };
         }
 
-        public static IList<ITrackerTask> Create(IEnumerable<TrackerTaskEntity> entities)
+        public static List<TrackerTask> Create(
+            IEnumerable<ITrackerTaskEntity> entities)
         {
             return entities.Select(Create).ToList();
         }
 
-        public static ITrackerTask Create(TrackerTaskEntity entity)
+        public static TrackerTask Create(ITrackerTaskEntity entity)
         {
-            return new TrackerTask()
+            return new()
             {
                 Id = entity.Id,
+                Title = entity.Title,
                 Activities = TrackerActivity.Create(entity.Activities)
             };
         }
 
-        public ITrackerActivity GetActivity(string description)
+        public TrackerActivity GetActivity(string description)
         {
             description = description.ToLower();
-            return Activities.First(a => a.Description.ToLower() == description);
+            var activity = Activities.FirstOrDefault(a =>
+                a.Description.ToLower() == description);
+            if (activity == null)
+            {
+                throw new KeyNotFoundException(
+                    $"No activity exists with description '{description}'");
+            }
+
+            return activity;
         }
 
-        public ITrackerTask Rename(string newName)
+        public TrackerActivity GetActivity(int id)
         {
-            throw new NotImplementedException();
+            var activity = Activities.FirstOrDefault(a => a.Id == id);
+            if (activity == null)
+            {
+                throw new KeyNotFoundException(
+                    $"No activity exists with id {id}");
+            }
+
+            return activity;
         }
 
-        public ITrackerTask AddActivity(ITrackerActivity trackerActivityEntity)
+        public TrackerTask Rename(string newName)
+        {
+            if (string.IsNullOrEmpty(newName))
+            {
+                throw new ArgumentException("Task title cannot be empty",
+                    nameof(newName));
+            }
+
+            Title = newName;
+
+            return this;
+        }
+
+        public TrackerTask AddActivity(ITrackerActivity activity)
         {
             // TODO: VALIDATE
-            Activities.Add(trackerActivityEntity);
+            Activities.Add((TrackerActivity) activity);
 
             return this;
         }
 
-        public ITrackerTask DeleteActivity(int id)
+        public TrackerTask RemoveActivity(int id)
         {
-            var toRemove = Activities.First(a => a.Id == id);
-            Activities.Remove(toRemove);
+            Activities.Remove(GetActivity(id));
 
             return this;
-        }
-
-        public ITrackerTask DeleteActivity(ITrackerActivity trackerActivityEntity)
-        {
-            Activities.Remove(trackerActivityEntity);
-
-            return this;
-        }
-
-        public ITrackerTask TransferActivity(ITrackerActivity activityEntity, ITrackerTask targetTaskEntity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -17,15 +17,16 @@ namespace Core.Tests.Fixtures
 
         public static ITrackerTask GenerateTaskWithActivities(uint numOfActivities)
         {
+            var task = TrackerTask.Create(MockData.Buzzword);
+
             if (numOfActivities == 0)
             {
-                return TrackerTask.Create("Empty task");
+                return task;
             }
 
-            var task = TrackerTask.Create(MockData.Buzzword);
             var seed = new Random();
             var seedDate = DateTime.Now.Subtract(TimeSpan.FromDays(numOfActivities));
-            var maxActDurationSeconds = TimeSpan.FromHours(8).Seconds;
+            var maxActDurationSeconds = (int) TimeSpan.FromHours(8).TotalSeconds;
 
             for (int i = 0; i < numOfActivities; i++)
             {

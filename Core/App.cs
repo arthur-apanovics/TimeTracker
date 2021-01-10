@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Entities;
 using Core.Interfaces;
 using Core.Models;
+using Microsoft.EntityFrameworkCore;
+using AppContext = Core.Data.AppContext;
 
 namespace Core
 {
@@ -15,30 +16,46 @@ namespace Core
         public App()
         {
             _ctx = AppContext.Instance;
-            // LoadConfiguration();
-            // User = user;
         }
 
         // TASK
 
+        public int GetTaskCount()
+        {
+            return _ctx.Tasks.Local.Count;
+        }
+
+        public IList<TrackerTask> GetAllTasks()
+        {
+            return TrackerTask.Create(_ctx.Tasks);
+        }
+
         public ITrackerTask GetTaskOrNull(int id)
         {
-            var task = _ctx.Tasks.FirstOrDefault(t => t.Id == id);
-
-            return task != null ? TrackerTask.Create(task) : null;
+            return _ctx.Tasks.FirstOrDefault(t => t.Id == id);
         }
 
         public ITrackerTask GetTaskOrNull(string title)
         {
             title = title.ToLower();
-            var task = _ctx.Tasks.FirstOrDefault(t => t.Title.ToLower() == title);
+            return _ctx.Tasks.FirstOrDefault(t => t.Title.ToLower() == title);
+        }
 
-            return task != null ? TrackerTask.Create(task) : null;
+        public ITrackerTask GetTask(int id)
+        {
+            var task = _ctx.Tasks.FirstOrDefault(t => t.Id == id);
+            if (task == null)
+            {
+                throw new KeyNotFoundException(
+                    $"No task exists with id {task.Id}");
+            }
+
+            return task;
         }
 
         public ITrackerTask InsertTask(ITrackerTask task)
         {
-            _ctx.Tasks.Add((task as TrackerTaskEntity)!);
+            _ctx.Tasks.Add((TrackerTask) task);
             _ctx.SaveChanges();
 
             return task;
@@ -46,19 +63,18 @@ namespace Core
 
         public ITrackerTask UpdateTask(ITrackerTask task)
         {
-            throw new NotImplementedException();
+            var taskEntity = GetTask(task.Id);
+            _ctx.Entry(taskEntity).CurrentValues.SetValues(task);
+            _ctx.SaveChanges();
+
+            return task;
         }
 
         public void DeleteTask(int id)
         {
-            var task = _ctx.Tasks.FirstOrDefault(t => t.Id == id);
-            if (task == null)
-            {
-                // todo: log non-existent task deletion attempt
-                return;
-            }
-            
-            _ctx.Tasks.Remove(task);
+            var task = GetTask(id);
+
+            _ctx.Tasks.Remove((TrackerTask) task);
             _ctx.SaveChanges();
         }
 
@@ -66,12 +82,24 @@ namespace Core
 
         public ITrackerActivity GetActivity(int id)
         {
-            throw new NotImplementedException();
+            var activity = _ctx.Activities.FirstOrDefault(a => a.Id == id);
+            if (activity == null)
+            {
+                throw new KeyNotFoundException(
+                    $"No activity exists with id {id}");
+            }
+
+            return activity;
         }
 
-        public ITrackerActivity CreateActivity()
+        public ITrackerActivity CreateActivity(string description, int taskId)
         {
-            throw new NotImplementedException();
+            var task = GetTask(taskId);
+            var activity = TrackerActivity.Create(description);
+            task.AddActivity(activity);
+            _ctx.SaveChanges();
+
+            return activity;
         }
 
         public ITrackerActivity UpdateActivity(ITrackerTask task)
@@ -81,7 +109,9 @@ namespace Core
 
         public void DeleteActivity(int id)
         {
-            throw new NotImplementedException();
+            var activity = GetActivity(id);
+            _ctx.Activities.Remove((TrackerActivity) activity);
+            _ctx.SaveChanges();
         }
 
         // PRESENTATION

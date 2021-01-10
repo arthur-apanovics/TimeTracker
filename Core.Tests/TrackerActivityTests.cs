@@ -7,11 +7,11 @@ using Xunit;
 
 namespace Core.Tests
 {
-    public class ActivityTests : IClassFixture<TrackerTaskFixture>
+    public class TrackerActivityTests : IClassFixture<TrackerTaskFixture>
     {
         private readonly TrackerTaskFixture _taskFixture;
 
-        public ActivityTests(TrackerTaskFixture taskFixture)
+        public TrackerActivityTests(TrackerTaskFixture taskFixture)
         {
             _taskFixture = taskFixture;
         }

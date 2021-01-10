@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using AppContext = Core.Data.AppContext;
 
 namespace Core.Migrations
 {
