@@ -11,14 +11,20 @@ namespace Core.Models
     {
         public int Id { get; set; }
 
-        [Required] [MaxLength(2048)] public string Title { get; set; }
+        [Required]
+        [MaxLength(2048)]
+        public string Title { get; set; }
 
+        [Required]
         [ForeignKey("TaskId")]
         public virtual List<TrackerActivity> Activities { get; protected set; }
             = new();
 
-        public TimeSpan TotalTime => Activities.Aggregate(TimeSpan.Zero,
-            (tally, next) => tally + next.TimeSpent);
+        public TimeSpan TotalTime =>
+            Activities.Aggregate(
+                TimeSpan.Zero,
+                (tally, next) => tally + next.TimeSpent
+            );
 
         public static TrackerTask Create(string title)
         {
@@ -34,7 +40,8 @@ namespace Core.Models
         }
 
         public static List<TrackerTask> Create(
-            IEnumerable<ITrackerTaskEntity> entities)
+            IEnumerable<ITrackerTaskEntity> entities
+        )
         {
             return entities.Select(Create).ToList();
         }
@@ -52,12 +59,14 @@ namespace Core.Models
         public TrackerActivity GetActivity(string description)
         {
             description = description.ToLower();
-            var activity = Activities.FirstOrDefault(a =>
-                a.Description.ToLower() == description);
+            var activity = Activities.FirstOrDefault(
+                a => a.Description.ToLower() == description
+            );
             if (activity == null)
             {
                 throw new KeyNotFoundException(
-                    $"No activity exists with description '{description}'");
+                    $"No activity exists with description '{description}'"
+                );
             }
 
             return activity;
@@ -69,7 +78,8 @@ namespace Core.Models
             if (activity == null)
             {
                 throw new KeyNotFoundException(
-                    $"No activity exists with id {id}");
+                    $"No activity exists with id {id}"
+                );
             }
 
             return activity;
@@ -79,8 +89,10 @@ namespace Core.Models
         {
             if (string.IsNullOrEmpty(newName))
             {
-                throw new ArgumentException("Task title cannot be empty",
-                    nameof(newName));
+                throw new ArgumentException(
+                    "Task title cannot be empty",
+                    nameof(newName)
+                );
             }
 
             Title = newName;

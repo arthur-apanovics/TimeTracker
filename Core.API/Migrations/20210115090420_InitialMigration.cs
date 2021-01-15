@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Core.Migrations
+namespace Core.API.Migrations
 {
     public partial class InitialMigration : Migration
     {
@@ -26,10 +26,10 @@ namespace Core.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    TaskId = table.Column<int>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     DateStart = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateEnd = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    TaskId = table.Column<int>(type: "INTEGER", nullable: true)
+                    DateEnd = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +39,7 @@ namespace Core.Migrations
                         column: x => x.TaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

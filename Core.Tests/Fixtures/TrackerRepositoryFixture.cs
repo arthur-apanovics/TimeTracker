@@ -1,24 +1,25 @@
 using System;
 using System.Collections.Generic;
+using Core.API.Data;
 using Core.Models;
 
 namespace Core.Tests.Fixtures
 {
-    public class AppFixture : IDisposable
+    public class TrackerRepositoryFixture : IDisposable
     {
-        public App EmptyApp => GenerateTestApp(0);
-        public App AppWithSingleTaskAndNoActivities => GenerateTestApp(1, 0);
-        public App AppWithSingleTaskAndSingleActivity => GenerateTestApp(1, 1);
-        public App AppWithManyTasksAndActivities => GenerateTestApp(12);
+        public TrackerRepository EmptyTrackerRepository => GenerateTestApp(0);
+        public TrackerRepository TrackerRepositoryWithSingleTaskAndNoActivities => GenerateTestApp(1, 0);
+        public TrackerRepository TrackerRepositoryWithSingleTaskAndSingleActivity => GenerateTestApp(1, 1);
+        public TrackerRepository TrackerRepositoryWithManyTasksAndActivities => GenerateTestApp(12);
 
-        private readonly List<App> _spawnedApps = new();
+        private readonly List<TrackerRepository> _spawnedApps = new();
 
         /// <param name="tasks">number of tasks in app</param>
         /// <param name="activities">number of activities in tasks; -1 = random</param>
-        public App GenerateTestApp(uint tasks, int activities = -1)
+        public TrackerRepository GenerateTestApp(uint tasks, int activities = -1)
         {
             var user = AppUser.Create("John", "Doe", "j@d.com", "CHC");
-            var app = new App() {AppUser = user};
+            var app = new TrackerRepository() {AppUser = user};
 
             if (tasks == 0)
             {

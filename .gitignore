@@ -3,5 +3,5 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-/Core/time-tracker.db
+/Core.API/time-tracker.db
 .idea/

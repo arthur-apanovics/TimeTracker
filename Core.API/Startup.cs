@@ -1,3 +1,11 @@
+using Core.API.Controllers;
+using Core.API.Data;
+using Core.API.GraphQL.Query;
+using Core.API.GraphQL.Types;
+using GraphiQl;
+using GraphQL;
+using GraphQL.NewtonsoftJson;
+using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +28,29 @@ namespace Core.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Core.API", Version = "v1"}); });
+
+            // services.AddSwaggerGen(
+            //     c =>
+            //     {
+            //         c.SwaggerDoc(
+            //             "v1",
+            //             new OpenApiInfo {Title = "Core.API", Version = "v1"}
+            //         );
+            //     }
+            // );
+
+            services.AddScoped<TrackerRepository>();
+            
+            // graphql
+            services.AddScoped<IDocumentExecuter, DocumentExecuter>();
+            services.AddScoped<IDocumentWriter, DocumentWriter>();
+            services.AddScoped<ISchema, GraphQlSchema>();
+
+            services.AddScoped<TrackerTaskType>();
+            services.AddScoped<TrackerTaskQuery>();
+            // services.AddScoped<TrackerTaskService>();
+            
+            services.AddScoped<TrackerActivityType>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,14 +59,20 @@ namespace Core.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core.API v1"));
+                
+                // app.UseSwagger();
+                // app.UseSwaggerUI(
+                //     c => c.SwaggerEndpoint(
+                //         "/swagger/v1/swagger.json",
+                //         "Core.API v1"
+                //     )
+                // );
+
+                app.UseGraphiQl("/graphql");
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
 using Core.Interfaces;
@@ -10,12 +11,18 @@ namespace Core.Models
     public class TrackerActivity : ITrackerActivity
     {
         public int Id { get; set; }
+        
+        [Required]
+        public TrackerTask Task { get; set; }
 
-        [Required] public string Description { get; set; }
+        [Required]
+        public string Description { get; set; }
 
-        [Required] public DateTime DateStart { get; set; }
+        [Required]
+        public DateTime DateStart { get; set; }
 
-        [Required] public DateTime DateEnd { get; set; }
+        [Required]
+        public DateTime DateEnd { get; set; }
 
         public TimeSpan TimeSpent => GetTimeSpent();
 
@@ -47,7 +54,8 @@ namespace Core.Models
         }
 
         public static List<TrackerActivity> Create(
-            IEnumerable<ITrackerActivityEntity> entities)
+            IEnumerable<ITrackerActivityEntity> entities
+        )
         {
             return entities.Select(Create).ToList();
         }

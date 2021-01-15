@@ -7,22 +7,25 @@ using Xunit;
 
 namespace Core.Tests
 {
-    public class AppTests : IClassFixture<AppFixture>,
+    public class AppTests : IClassFixture<TrackerRepositoryFixture>,
         IClassFixture<TrackerTaskFixture>
     {
-        private readonly AppFixture _appFixture;
+        private readonly TrackerRepositoryFixture _trackerRepositoryFixture;
         private readonly TrackerTaskFixture _taskFixture;
 
-        public AppTests(AppFixture appFixture, TrackerTaskFixture taskFixture)
+        public AppTests(
+            TrackerRepositoryFixture trackerRepositoryFixture,
+            TrackerTaskFixture taskFixture
+        )
         {
-            _appFixture = appFixture;
+            _trackerRepositoryFixture = trackerRepositoryFixture;
             _taskFixture = taskFixture;
         }
 
         [Fact]
         public void CreateTask_SavesToDatabase_WhenValid()
         {
-            var sut = _appFixture.EmptyApp;
+            var sut = _trackerRepositoryFixture.EmptyTrackerRepository;
             const string taskTitle =
                 nameof(CreateTask_SavesToDatabase_WhenValid);
 
@@ -39,7 +42,8 @@ namespace Core.Tests
         [Fact]
         public void UpdateTask_UpdatesExistingEntry_WhenValid()
         {
-            var app = _appFixture.AppWithManyTasksAndActivities;
+            var app = _trackerRepositoryFixture
+                .TrackerRepositoryWithManyTasksAndActivities;
             var tasks = app.GetAllTasks();
             var sut = tasks[new Random().Next(tasks.Count)];
             var expected = MockData.Slogan;
@@ -55,7 +59,8 @@ namespace Core.Tests
         [Fact]
         public void CreateActivity_CreatesAndAttachesToTask_WhenValid()
         {
-            var app = _appFixture.AppWithSingleTaskAndNoActivities;
+            var app = _trackerRepositoryFixture
+                .TrackerRepositoryWithSingleTaskAndNoActivities;
             var descr = MockData.Slogan;
             var task = app.GetAllTasks().First();
 
@@ -65,7 +70,7 @@ namespace Core.Tests
             app.GetActivity(sut.Id).Should().BeEquivalentTo(sut);
             // cleanup
             app.DeleteActivity(sut.Id);
-            task.Activities.Should().BeEmpty();
+            app.GetActivityOrNull(sut.Id).Should().BeNull();
         }
     }
 }

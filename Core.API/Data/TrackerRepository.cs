@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Interfaces;
 using Core.Models;
-using Microsoft.EntityFrameworkCore;
-using AppContext = Core.Data.AppContext;
 
-namespace Core
+namespace Core.API.Data
 {
-    public class App
+    public class TrackerRepository
     {
         public IAppUser AppUser { get; set; } // todo: validate
-        private readonly AppContext _ctx;
+        private readonly TrackerContext _ctx;
 
-        public App()
+        public TrackerRepository()
         {
-            _ctx = AppContext.Instance;
+            _ctx = TrackerContext.Instance;
         }
 
         // TASK
@@ -47,7 +45,8 @@ namespace Core
             if (task == null)
             {
                 throw new KeyNotFoundException(
-                    $"No task exists with id {task.Id}");
+                    $"No task exists with id {task.Id}"
+                );
             }
 
             return task;
@@ -74,6 +73,11 @@ namespace Core
         {
             var task = GetTask(id);
 
+            foreach (var activity in task.Activities)
+            {
+                DeleteActivity(activity.Id);
+            }
+
             _ctx.Tasks.Remove((TrackerTask) task);
             _ctx.SaveChanges();
         }
@@ -86,10 +90,16 @@ namespace Core
             if (activity == null)
             {
                 throw new KeyNotFoundException(
-                    $"No activity exists with id {id}");
+                    $"No activity exists with id {id}"
+                );
             }
 
             return activity;
+        }
+
+        public ITrackerActivity GetActivityOrNull(int id)
+        {
+            return _ctx.Activities.FirstOrDefault(a => a.Id == id);
         }
 
         public ITrackerActivity CreateActivity(string description, int taskId)
@@ -110,7 +120,13 @@ namespace Core
         public void DeleteActivity(int id)
         {
             var activity = GetActivity(id);
+            var task = _ctx.Tasks.First(
+                t => t.Activities.Contains((TrackerActivity) activity)
+            );
+
+            task.RemoveActivity(activity.Id);
             _ctx.Activities.Remove((TrackerActivity) activity);
+
             _ctx.SaveChanges();
         }
 

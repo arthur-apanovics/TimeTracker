@@ -25,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Core.API\Core.API.csproj" />
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
