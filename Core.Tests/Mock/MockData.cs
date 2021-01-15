@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Core.Tests
+namespace Core.Tests.Mock
 {
     internal class LimitedListQueue<T> : List<T>
     {
@@ -25,7 +25,7 @@ namespace Core.Tests
     
     public static class MockData
     {
-        private const string MockDataFilename = "mock_data.csv";
+        private const string MockDataFilename = @"Mock\mock_data.csv";
 
         private static readonly List<string> Buzzwords = new();
         private static readonly List<string> Slogans = new();

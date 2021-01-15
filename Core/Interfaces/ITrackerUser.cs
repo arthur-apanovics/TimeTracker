@@ -1,6 +1,6 @@
 ﻿namespace Core.Interfaces
 {
-    public interface IAppUser
+    public interface ITrackerUser
     {
         public string FullName { get; }
         public string FirstName { get; }

@@ -2,24 +2,30 @@ using System;
 using System.Linq;
 using Core.Models;
 using Core.Tests.Fixtures;
+using Core.Tests.Mock;
 using FluentAssertions;
 using Xunit;
 
-namespace Core.Tests
+namespace Core.Tests.Tests
 {
-    public class AppTests : IClassFixture<TrackerRepositoryFixture>,
-        IClassFixture<TrackerTaskFixture>
+    public class TrackerRepositoryTests : IClassFixture<TrackerRepositoryFixture>,
+        IClassFixture<TrackerTaskFixture>, IDisposable
     {
         private readonly TrackerRepositoryFixture _trackerRepositoryFixture;
         private readonly TrackerTaskFixture _taskFixture;
 
-        public AppTests(
+        public TrackerRepositoryTests(
             TrackerRepositoryFixture trackerRepositoryFixture,
             TrackerTaskFixture taskFixture
         )
         {
             _trackerRepositoryFixture = trackerRepositoryFixture;
             _taskFixture = taskFixture;
+        }
+        
+        public void Dispose()
+        {
+            _trackerRepositoryFixture.Dispose();
         }
 
         [Fact]
@@ -37,20 +43,21 @@ namespace Core.Tests
             // cleanup
             sut.DeleteTask(actual.Id);
             sut.GetTaskOrNull(actual.Id).Should().BeNull();
+            _trackerRepositoryFixture.Dispose();
         }
 
         [Fact]
         public void UpdateTask_UpdatesExistingEntry_WhenValid()
         {
-            var app = _trackerRepositoryFixture
+            var repo = _trackerRepositoryFixture
                 .TrackerRepositoryWithManyTasksAndActivities;
-            var tasks = app.GetAllTasks();
+            var tasks = repo.GetAllTasks();
             var sut = tasks[new Random().Next(tasks.Count)];
             var expected = MockData.Slogan;
 
             sut.Rename(expected);
-            var actual = app.UpdateTask(sut);
-            var actualLocal = app.GetTaskOrNull(sut.Id);
+            var actual = repo.UpdateTask(sut);
+            var actualLocal = repo.GetTaskOrNull(sut.Id);
 
             actual.Title.Should().Be(expected);
             actualLocal.Title.Should().Be(expected);
@@ -59,18 +66,18 @@ namespace Core.Tests
         [Fact]
         public void CreateActivity_CreatesAndAttachesToTask_WhenValid()
         {
-            var app = _trackerRepositoryFixture
+            var repo = _trackerRepositoryFixture
                 .TrackerRepositoryWithSingleTaskAndNoActivities;
             var descr = MockData.Slogan;
-            var task = app.GetAllTasks().First();
+            var task = repo.GetAllTasks().First();
 
-            var sut = app.CreateActivity(descr, task.Id);
+            var sut = repo.CreateActivity(descr, task.Id);
 
             sut.Id.Should().BePositive();
-            app.GetActivity(sut.Id).Should().BeEquivalentTo(sut);
+            repo.GetActivity(sut.Id).Should().BeEquivalentTo(sut);
             // cleanup
-            app.DeleteActivity(sut.Id);
-            app.GetActivityOrNull(sut.Id).Should().BeNull();
+            repo.DeleteActivity(sut.Id);
+            repo.GetActivityOrNull(sut.Id).Should().BeNull();
         }
     }
 }

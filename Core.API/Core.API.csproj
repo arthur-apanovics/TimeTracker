@@ -32,7 +32,7 @@
 
     <ItemGroup>
       <None Update="time-tracker.db">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
 

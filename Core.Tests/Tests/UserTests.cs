@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Core.Tests
+namespace Core.Tests.Tests
 {
     public class UserTests
     {

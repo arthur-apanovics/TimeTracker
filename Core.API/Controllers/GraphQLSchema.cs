@@ -2,7 +2,6 @@
 using Core.API.GraphQL.Query;
 using GraphQL.Types;
 using GraphQL.Utilities;
-using Microsoft.Extensions.Logging;
 
 namespace Core.API.Controllers
 {

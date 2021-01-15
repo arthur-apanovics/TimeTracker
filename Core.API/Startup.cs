@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace Core.API
 {
@@ -29,17 +28,8 @@ namespace Core.API
         {
             services.AddControllers();
 
-            // services.AddSwaggerGen(
-            //     c =>
-            //     {
-            //         c.SwaggerDoc(
-            //             "v1",
-            //             new OpenApiInfo {Title = "Core.API", Version = "v1"}
-            //         );
-            //     }
-            // );
-
-            services.AddScoped<TrackerRepository>();
+            services.AddSingleton<TrackerContext>();
+            services.AddSingleton<TrackerRepository>();
             
             // graphql
             services.AddScoped<IDocumentExecuter, DocumentExecuter>();
@@ -59,15 +49,6 @@ namespace Core.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
-                // app.UseSwagger();
-                // app.UseSwaggerUI(
-                //     c => c.SwaggerEndpoint(
-                //         "/swagger/v1/swagger.json",
-                //         "Core.API v1"
-                //     )
-                // );
-
                 app.UseGraphiQl("/graphql");
             }
 

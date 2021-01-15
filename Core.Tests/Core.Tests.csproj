@@ -30,8 +30,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="mock_data.csv">
+      <None Update="Mock\mock_data.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="time-tracker-test.db">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
 

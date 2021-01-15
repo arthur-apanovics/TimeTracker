@@ -1,6 +1,7 @@
 using System;
 using Core.Interfaces;
 using Core.Models;
+using Core.Tests.Mock;
 
 namespace Core.Tests.Fixtures
 {

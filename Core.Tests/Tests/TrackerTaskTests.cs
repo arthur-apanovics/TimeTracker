@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Core.Interfaces;
 using Core.Models;
 using Core.Tests.Fixtures;
+using Core.Tests.Mock;
 using FluentAssertions;
 using Xunit;
 
-namespace Core.Tests
+namespace Core.Tests.Tests
 {
     public class TrackerTaskTests: IClassFixture<TrackerTaskFixture>
     {

@@ -2,7 +2,7 @@ using Core.Interfaces;
 
 namespace Core.Models
 {
-    public class AppUser : IAppUser
+    public class TrackerUser : ITrackerUser
     {
         public string FullName => $"{FirstName} {LastName}";
         public string FirstName { get; protected set; }
@@ -10,9 +10,9 @@ namespace Core.Models
         public string Email { get; protected set; }
         public string Office { get; protected set; }
 
-        public static IAppUser Create(string firstName, string lastName, string email, string office)
+        public static ITrackerUser Create(string firstName, string lastName, string email, string office)
         {
-            return new AppUser
+            return new TrackerUser
             {
                 FirstName = firstName,
                 LastName = lastName,

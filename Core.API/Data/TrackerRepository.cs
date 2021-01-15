@@ -8,12 +8,12 @@ namespace Core.API.Data
 {
     public class TrackerRepository
     {
-        public IAppUser AppUser { get; set; } // todo: validate
+        public ITrackerUser TrackerUser { get; set; } // todo: validate
         private readonly TrackerContext _ctx;
 
-        public TrackerRepository()
+        public TrackerRepository(TrackerContext context)
         {
-            _ctx = TrackerContext.Instance;
+            _ctx = context;
         }
 
         // TASK

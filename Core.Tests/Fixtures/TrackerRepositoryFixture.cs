@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Core.API.Data;
 using Core.Models;
+using Core.Tests.Mock;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Tests.Fixtures
 {
@@ -12,18 +14,20 @@ namespace Core.Tests.Fixtures
         public TrackerRepository TrackerRepositoryWithSingleTaskAndSingleActivity => GenerateTestApp(1, 1);
         public TrackerRepository TrackerRepositoryWithManyTasksAndActivities => GenerateTestApp(12);
 
-        private readonly List<TrackerRepository> _spawnedApps = new();
+        private readonly TrackerTestContext _context = new();
+        private readonly List<TrackerRepository> _spawnedRepositories = new();
 
         /// <param name="tasks">number of tasks in app</param>
         /// <param name="activities">number of activities in tasks; -1 = random</param>
         public TrackerRepository GenerateTestApp(uint tasks, int activities = -1)
         {
-            var user = AppUser.Create("John", "Doe", "j@d.com", "CHC");
-            var app = new TrackerRepository() {AppUser = user};
+            var user = TrackerUser.Create("John", "Doe", "j@d.com", "CHC");
+            var context = new TrackerTestContext();
+            var repository = new TrackerRepository(context);
 
             if (tasks == 0)
             {
-                return app;
+                return repository;
             }
 
             var seed = new Random();
@@ -33,23 +37,19 @@ namespace Core.Tests.Fixtures
                     ? seed.Next(20)
                     : activities;
 
-                app.InsertTask(TrackerTaskFixture.GenerateTaskWithActivities((uint) numAct));
+                repository.InsertTask(TrackerTaskFixture.GenerateTaskWithActivities((uint) numAct));
             }
 
-            _spawnedApps.Add(app);
+            _spawnedRepositories.Add(repository);
 
-            return app;
+            return repository;
         }
 
         public void Dispose()
         {
-            foreach (var app in _spawnedApps)
-            {
-                foreach (var task in app.GetAllTasks())
-                {
-                    app.DeleteTask(task.Id);
-                }
-            }
+            _context.Tasks.FromSqlRaw($"DELETE FROM {nameof(_context.Tasks)}");
+            _context.Activities.FromSqlRaw($"DELETE FROM {nameof(_context.Activities)}");
+            _context.SaveChanges();
         }
     }
 }

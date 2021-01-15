@@ -5,7 +5,7 @@ using Core.Tests.Fixtures;
 using FluentAssertions;
 using Xunit;
 
-namespace Core.Tests
+namespace Core.Tests.Tests
 {
     public class TrackerActivityTests : IClassFixture<TrackerTaskFixture>
     {
