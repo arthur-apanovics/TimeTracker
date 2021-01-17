@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Models;
 
-namespace Core.Interfaces
+namespace Core.API.Models.Interfaces
 {
     public interface ITrackerTaskEntity
     {
@@ -18,6 +17,6 @@ namespace Core.Interfaces
         public TrackerActivity GetActivity(string desc);
         public TrackerActivity GetActivity(int id);
         public TrackerTask AddActivity(ITrackerActivity activity);
-        public TrackerTask RemoveActivity(int id);
+        public TrackerTask DeleteActivity(int id);
     }
 }

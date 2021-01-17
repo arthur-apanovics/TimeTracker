@@ -1,4 +1,4 @@
-﻿namespace Core.Interfaces
+﻿namespace Core.API.Models.Interfaces
 {
     public interface ITrackerUser
     {

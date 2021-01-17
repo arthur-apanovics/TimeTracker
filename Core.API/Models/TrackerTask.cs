@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using Core.Interfaces;
+using Core.API.Models.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace Core.Models
+namespace Core.API.Models
 {
     public class TrackerTask : ITrackerTask
     {
@@ -26,34 +27,11 @@ namespace Core.Models
                 (tally, next) => tally + next.TimeSpent
             );
 
-        public static TrackerTask Create(string title)
-        {
-            if (string.IsNullOrEmpty(title))
-            {
-                throw new ArgumentNullException(nameof(title));
-            }
+        private readonly DbContext _context;
 
-            return new TrackerTask()
-            {
-                Title = title
-            };
-        }
-
-        public static List<TrackerTask> Create(
-            IEnumerable<ITrackerTaskEntity> entities
-        )
+        public TrackerTask(DbContext context)
         {
-            return entities.Select(Create).ToList();
-        }
-
-        public static TrackerTask Create(ITrackerTaskEntity entity)
-        {
-            return new()
-            {
-                Id = entity.Id,
-                Title = entity.Title,
-                Activities = TrackerActivity.Create(entity.Activities)
-            };
+            _context = context;
         }
 
         public TrackerActivity GetActivity(string description)
@@ -62,6 +40,7 @@ namespace Core.Models
             var activity = Activities.FirstOrDefault(
                 a => a.Description.ToLower() == description
             );
+
             if (activity == null)
             {
                 throw new KeyNotFoundException(
@@ -75,6 +54,7 @@ namespace Core.Models
         public TrackerActivity GetActivity(int id)
         {
             var activity = Activities.FirstOrDefault(a => a.Id == id);
+
             if (activity == null)
             {
                 throw new KeyNotFoundException(
@@ -83,6 +63,44 @@ namespace Core.Models
             }
 
             return activity;
+        }
+
+        public TrackerActivity CreateActivity(string description)
+        {
+            if (string.IsNullOrEmpty(description))
+            {
+                throw new ArgumentNullException(nameof(description));
+            }
+
+            var activity = new TrackerActivity(_context)
+            {
+                Description = description,
+                Task = this
+            };
+
+            Activities.Add(activity);
+            _context.Add(activity);
+            _context.SaveChanges();
+
+            return activity;
+        }
+
+        public TrackerTask AddActivity(ITrackerActivity activity)
+        {
+            Activities.Add((TrackerActivity) activity);
+
+            _context.SaveChanges();
+
+            return this;
+        }
+
+        public TrackerTask DeleteActivity(int id)
+        {
+            Activities.Remove(GetActivity(id));
+
+            _context.SaveChanges();
+
+            return this;
         }
 
         public TrackerTask Rename(string newName)
@@ -97,20 +115,7 @@ namespace Core.Models
 
             Title = newName;
 
-            return this;
-        }
-
-        public TrackerTask AddActivity(ITrackerActivity activity)
-        {
-            // TODO: VALIDATE
-            Activities.Add((TrackerActivity) activity);
-
-            return this;
-        }
-
-        public TrackerTask RemoveActivity(int id)
-        {
-            Activities.Remove(GetActivity(id));
+            _context.SaveChanges();
 
             return this;
         }

@@ -1,47 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Interfaces;
-using Core.Models;
+using Core.API.Models;
+using Core.API.Models.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.API.Data
 {
     public class TrackerRepository
     {
         public ITrackerUser TrackerUser { get; set; } // todo: validate
-        private readonly TrackerContext _ctx;
+        private readonly TrackerContext _context;
 
         public TrackerRepository(TrackerContext context)
         {
-            _ctx = context;
+            _context = context;
         }
 
         // TASK
 
         public int GetTaskCount()
         {
-            return _ctx.Tasks.Local.Count;
+            return _context.Tasks.Local.Count;
         }
 
         public IList<TrackerTask> GetAllTasks()
         {
-            return TrackerTask.Create(_ctx.Tasks);
+            return _context.Tasks.Include(t => t.Activities).ToList();
         }
 
-        public ITrackerTask GetTaskOrNull(int id)
+        public TrackerTask GetTaskOrNull(int id)
         {
-            return _ctx.Tasks.FirstOrDefault(t => t.Id == id);
+            return _context.Tasks.FirstOrDefault(t => t.Id == id);
         }
 
-        public ITrackerTask GetTaskOrNull(string title)
+        public TrackerTask GetTaskOrNull(string title)
         {
             title = title.ToLower();
-            return _ctx.Tasks.FirstOrDefault(t => t.Title.ToLower() == title);
+            return _context.Tasks.FirstOrDefault(t => t.Title.ToLower() == title);
         }
 
-        public ITrackerTask GetTask(int id)
+        public TrackerTask GetTask(int id)
         {
-            var task = _ctx.Tasks.FirstOrDefault(t => t.Id == id);
+            var task = _context.Tasks.FirstOrDefault(t => t.Id == id);
             if (task == null)
             {
                 throw new KeyNotFoundException(
@@ -52,19 +53,19 @@ namespace Core.API.Data
             return task;
         }
 
-        public ITrackerTask InsertTask(ITrackerTask task)
+        public TrackerTask InsertTask(TrackerTask task)
         {
-            _ctx.Tasks.Add((TrackerTask) task);
-            _ctx.SaveChanges();
+            _context.Tasks.Add(task);
+            _context.SaveChanges();
 
             return task;
         }
 
-        public ITrackerTask UpdateTask(ITrackerTask task)
+        public TrackerTask UpdateTask(TrackerTask task)
         {
             var taskEntity = GetTask(task.Id);
-            _ctx.Entry(taskEntity).CurrentValues.SetValues(task);
-            _ctx.SaveChanges();
+            _context.Entry(taskEntity).CurrentValues.SetValues(task);
+            _context.SaveChanges();
 
             return task;
         }
@@ -78,15 +79,15 @@ namespace Core.API.Data
                 DeleteActivity(activity.Id);
             }
 
-            _ctx.Tasks.Remove((TrackerTask) task);
-            _ctx.SaveChanges();
+            _context.Tasks.Remove(task);
+            _context.SaveChanges();
         }
 
         // ACTIVITY
 
         public ITrackerActivity GetActivity(int id)
         {
-            var activity = _ctx.Activities.FirstOrDefault(a => a.Id == id);
+            var activity = _context.Activities.FirstOrDefault(a => a.Id == id);
             if (activity == null)
             {
                 throw new KeyNotFoundException(
@@ -99,20 +100,25 @@ namespace Core.API.Data
 
         public ITrackerActivity GetActivityOrNull(int id)
         {
-            return _ctx.Activities.FirstOrDefault(a => a.Id == id);
+            return _context.Activities.FirstOrDefault(a => a.Id == id);
         }
 
         public ITrackerActivity CreateActivity(string description, int taskId)
         {
             var task = GetTask(taskId);
-            var activity = TrackerActivity.Create(description);
+            var activity = new TrackerActivity(_context)
+            {
+                Description = description,
+                Task = GetTask(taskId)
+            };
+
             task.AddActivity(activity);
-            _ctx.SaveChanges();
+            _context.SaveChanges();
 
             return activity;
         }
 
-        public ITrackerActivity UpdateActivity(ITrackerTask task)
+        public ITrackerActivity UpdateActivity(TrackerTask task)
         {
             throw new NotImplementedException();
         }
@@ -120,19 +126,19 @@ namespace Core.API.Data
         public void DeleteActivity(int id)
         {
             var activity = GetActivity(id);
-            var task = _ctx.Tasks.First(
+            var task = _context.Tasks.First(
                 t => t.Activities.Contains((TrackerActivity) activity)
             );
 
-            task.RemoveActivity(activity.Id);
-            _ctx.Activities.Remove((TrackerActivity) activity);
+            task.DeleteActivity(activity.Id);
+            _context.Activities.Remove((TrackerActivity) activity);
 
-            _ctx.SaveChanges();
+            _context.SaveChanges();
         }
 
         // PRESENTATION
 
-        public Dictionary<ITrackerTask, TimeSpan> GetTaskTotalReport()
+        public Dictionary<TrackerTask, TimeSpan> GetTaskTotalReport()
         {
             throw new NotImplementedException();
         }

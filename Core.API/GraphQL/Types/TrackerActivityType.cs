@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.API.Models;
 using GraphQL.Types;
 
 namespace Core.API.GraphQL.Types

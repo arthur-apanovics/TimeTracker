@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.API.Data;
-using Core.Interfaces;
-using Core.Models;
+using Core.API.Models;
+using Core.API.Models.Interfaces;
 
 namespace Core.API.GraphQL.Service
 {

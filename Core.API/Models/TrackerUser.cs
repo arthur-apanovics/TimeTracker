@@ -1,6 +1,6 @@
-using Core.Interfaces;
+using Core.API.Models.Interfaces;
 
-namespace Core.Models
+namespace Core.API.Models
 {
     public class TrackerUser : ITrackerUser
     {

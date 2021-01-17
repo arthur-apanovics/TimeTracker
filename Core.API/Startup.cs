@@ -2,12 +2,12 @@ using Core.API.Controllers;
 using Core.API.Data;
 using Core.API.GraphQL.Query;
 using Core.API.GraphQL.Types;
-using GraphiQl;
 using GraphQL;
 using GraphQL.NewtonsoftJson;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,19 +28,19 @@ namespace Core.API
         {
             services.AddControllers();
 
-            services.AddSingleton<TrackerContext>();
+            services.AddSingleton<DbContext, TrackerContext>();
             services.AddSingleton<TrackerRepository>();
             
             // graphql
-            services.AddScoped<IDocumentExecuter, DocumentExecuter>();
-            services.AddScoped<IDocumentWriter, DocumentWriter>();
-            services.AddScoped<ISchema, GraphQlSchema>();
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            services.AddSingleton<IDocumentWriter, DocumentWriter>();
+            services.AddSingleton<ISchema, GraphQlSchema>();
 
-            services.AddScoped<TrackerTaskType>();
-            services.AddScoped<TrackerTaskQuery>();
+            services.AddSingleton<TrackerTaskType>();
+            services.AddSingleton<TrackerTaskQuery>();
             // services.AddScoped<TrackerTaskService>();
             
-            services.AddScoped<TrackerActivityType>();
+            services.AddSingleton<TrackerActivityType>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +49,7 @@ namespace Core.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseGraphiQl("/graphql");
+                app.UseGraphiQLServer();
             }
 
             app.UseHttpsRedirection();

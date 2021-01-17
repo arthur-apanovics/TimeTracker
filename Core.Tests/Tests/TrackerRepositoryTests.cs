@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using Core.Models;
+using Core.API.Models;
 using Core.Tests.Fixtures;
 using Core.Tests.Mock;
 using FluentAssertions;
@@ -22,23 +22,25 @@ namespace Core.Tests.Tests
             _trackerRepositoryFixture = trackerRepositoryFixture;
             _taskFixture = taskFixture;
         }
-        
+
         public void Dispose()
         {
             _trackerRepositoryFixture.Dispose();
         }
 
         [Fact]
-        public void CreateTask_SavesToDatabase_WhenValid()
+        public void InsertTask_SavesToDatabase_WhenValid()
         {
             var sut = _trackerRepositoryFixture.EmptyTrackerRepository;
-            const string taskTitle =
-                nameof(CreateTask_SavesToDatabase_WhenValid);
+            var taskTitle = MockData.Buzzword;
 
-            var task = TrackerTask.Create(taskTitle);
+            var task = new TrackerTask(null)
+            {
+                Title = taskTitle
+            };
             var actual = sut.InsertTask(task);
 
-            actual.Id.Should().BeOfType(typeof(int)).And.BeGreaterThan(0);
+            actual.Id.Should().BeGreaterThan(0);
 
             // cleanup
             sut.DeleteTask(actual.Id);

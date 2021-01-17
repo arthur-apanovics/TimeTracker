@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.API.Data
@@ -12,9 +12,11 @@ namespace Core.API.Data
             DbContextOptionsBuilder optionsBuilder
         )
         {
-            optionsBuilder.UseSqlite("Data Source=time-tracker.db");
 #if DEBUG
+            optionsBuilder.UseSqlite("Data Source=time-tracker-seeded.db");
             optionsBuilder.EnableSensitiveDataLogging();
+#else
+            optionsBuilder.UseSqlite("Data Source=time-tracker.db");
 #endif
         }
     }

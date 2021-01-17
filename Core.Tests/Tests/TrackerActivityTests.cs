@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using Core.Models;
+using Core.API.Models;
 using Core.Tests.Fixtures;
 using FluentAssertions;
 using Xunit;
@@ -23,7 +23,7 @@ namespace Core.Tests.Tests
         public void Tracking_RecordsPassedTime(int activityLengthSeconds)
         {
             // Arrange
-            var sut = TrackerActivity.Create(nameof(Tracking_RecordsPassedTime));
+            var sut = new TrackerActivity(null);
             var expected = TimeSpan.FromSeconds(activityLengthSeconds);
 
             // Act

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Interfaces
+namespace Core.API.Models.Interfaces
 {
     public interface ITrackerActivityEntity
     {

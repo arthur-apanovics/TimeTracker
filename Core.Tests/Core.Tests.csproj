@@ -36,6 +36,16 @@
       <None Update="time-tracker-test.db">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Remove="mock_data.csv" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="UserTests.cs" />
+      <Compile Remove="TrackerTaskTests.cs" />
+      <Compile Remove="TrackerActivityTests.cs" />
+      <Compile Remove="MockData.cs" />
+      <Compile Remove="Fixtures\AppFixture.cs" />
+      <Compile Remove="AppTests.cs" />
     </ItemGroup>
 
 </Project>

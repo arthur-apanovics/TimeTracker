@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
-using Core.Interfaces;
+using Core.API.Models.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace Core.Models
+namespace Core.API.Models
 {
     public class TrackerActivity : ITrackerActivity
     {
         public int Id { get; set; }
-        
+
         [Required]
         public TrackerTask Task { get; set; }
 
@@ -23,40 +24,17 @@ namespace Core.Models
         [Required]
         public DateTime DateEnd { get; set; }
 
+
         public TimeSpan TimeSpent => GetTimeSpent();
 
         private bool IsTracking => _stopwatch.IsRunning;
+        
         private readonly Stopwatch _stopwatch = new();
+        private readonly DbContext _context;
 
-        public static TrackerActivity Create(string description)
+        public TrackerActivity(DbContext context)
         {
-            if (string.IsNullOrEmpty(description))
-            {
-                throw new ArgumentNullException(nameof(description));
-            }
-
-            return new TrackerActivity
-            {
-                Description = description
-            };
-        }
-
-        public static TrackerActivity Create(ITrackerActivityEntity entity)
-        {
-            return new()
-            {
-                Id = entity.Id,
-                Description = entity.Description,
-                DateEnd = entity.DateEnd,
-                DateStart = entity.DateStart
-            };
-        }
-
-        public static List<TrackerActivity> Create(
-            IEnumerable<ITrackerActivityEntity> entities
-        )
-        {
-            return entities.Select(Create).ToList();
+            _context = context;
         }
 
         public DateTime StartTracking()
@@ -64,6 +42,8 @@ namespace Core.Models
             _stopwatch.Start();
             DateStart = DateTime.Now;
 
+            _context.SaveChanges();
+            
             return DateStart;
         }
 
