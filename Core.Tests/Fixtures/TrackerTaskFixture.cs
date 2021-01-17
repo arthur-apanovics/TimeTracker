@@ -22,10 +22,11 @@ namespace Core.Tests.Fixtures
         {
             foreach (var task in _spawnedTasks)
             {
-                _context.Tasks.Remove(task);
+                _context.Remove(task);
             }
 
             _context.SaveChanges();
+            _spawnedTasks.Clear();
         }
 
         public TrackerTask GenerateTaskWithActivities(uint numOfActivities)
