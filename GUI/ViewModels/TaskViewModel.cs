@@ -6,21 +6,21 @@ namespace GUI.ViewModels
 {
     public class TaskViewModel : ViewModelBase
     {
-        private readonly ITrackerTask _task;
+        public ITrackerTask Task { get; }
 
-        public string Title => _task.Title;
-        public TimeSpan Duration => _task.TotalTime;
+        public string Title => Task.Title;
+        public TimeSpan Duration => Task.TotalTime;
 
-        public int ActivitiesCount => _task.Activities.Count;
+        public int ActivitiesCount => Task.Activities.Count;
 
         public TaskViewModel(ITrackerTask task)
         {
-            _task = task;
+            Task = task;
         }
 
         public TaskViewModel()
         {
-            _task = new TrackerTask(null)
+            Task = new TrackerTask(null)
             {
                 Title = "Design time title",
                 Activities =

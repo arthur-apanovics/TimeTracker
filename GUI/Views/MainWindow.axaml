@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:v="clr-namespace:GUI.Views"
     mc:Ignorable="d"
-    Width="450"
+    Width="800"
     Height="600"
     x:Class="GUI.Views.MainWindow"
     Icon="/Assets/avalonia-logo.ico"
@@ -21,18 +21,10 @@
         Margin="{Binding $parent[Window].WindowDecorationMargin}" >
         <v:AcrylicMaterial />
         <StackPanel
-            Orientation="Horizontal" >
-            <Border
-                BorderThickness="0 0 1 0"
-                BorderBrush="DimGray"
-                Padding="10" >
-                <StackPanel
-                    HorizontalAlignment="Left"
-                    Width="70" />
-            </Border>
-            <v:TaskListView
-                HorizontalAlignment="Right"
-                DataContext="{Binding TaskListViewModel}" />
+            Orientation="Horizontal">
+                <v:TaskListView
+                    HorizontalAlignment="Right"
+                    DataContext="{Binding TaskListViewModel}" />
         </StackPanel>
     </Panel>
 </Window>

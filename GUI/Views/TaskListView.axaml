@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:GUI.ViewModels"
+    xmlns:v="clr-namespace:GUI.Views"
     mc:Ignorable="d"
     d:DesignWidth="400"
     d:DesignHeight="600"
@@ -13,13 +14,19 @@
         <vm:TaskListViewModel />
     </Design.DataContext>
 
-    <ScrollViewer>
-
-        <ListBox
-            HorizontalAlignment="Stretch"
-            Items="{Binding Tasks}"
-            Background="Transparent"/>
-
-    </ScrollViewer>
+    <DockPanel>
+        <ScrollViewer
+            DockPanel.Dock="Left" >
+            <ListBox
+                HorizontalAlignment="Stretch"
+                Items="{Binding Tasks}"
+                Background="Transparent"
+                SelectedItem="{Binding SelectedTask}" />
+        </ScrollViewer>
+        <ScrollViewer>
+            <v:ActivityListView
+                DataContext="{Binding ActivityListViewModel}" />
+        </ScrollViewer>
+    </DockPanel>
 
 </UserControl>

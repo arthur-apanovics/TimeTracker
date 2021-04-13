@@ -1,4 +1,6 @@
-﻿namespace GUI.ViewModels
+﻿using Splat;
+
+namespace GUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
@@ -9,9 +11,10 @@
             TaskListViewModel = taskListViewModel;
         }
 
-         public MainWindowViewModel()
-         {
-
-         }
+        public MainWindowViewModel()
+        {
+            TaskListViewModel =
+                Locator.Current.GetRequiredService<TaskListViewModel>();
+        }
     }
 }
