@@ -11,6 +11,7 @@ namespace GUI.ViewModels
     {
         private readonly TrackerRepository _repository;
         private TaskViewModel? _selectedTask;
+        private ActivityListViewModel? _activityListViewModel;
         public ObservableCollection<TaskViewModel> Tasks { get; } = new();
 
         public TaskViewModel? SelectedTask
@@ -26,8 +27,9 @@ namespace GUI.ViewModels
 
         public ActivityListViewModel? ActivityListViewModel
         {
-            get;
-            private set;
+            get => _activityListViewModel;
+            private set =>
+                this.RaiseAndSetIfChanged(ref _activityListViewModel, value);
         }
 
         public TaskListViewModel(TrackerRepository repository)

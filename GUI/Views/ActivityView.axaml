@@ -1,0 +1,35 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:GUI.ViewModels"
+    mc:Ignorable="d"
+    d:DesignWidth="450"
+    d:DesignHeight="450"
+    x:Class="GUI.Views.ActivityView" >
+
+    <Design.DataContext>
+        <vm:ActivityViewModel />
+    </Design.DataContext>
+
+    <DockPanel
+        Margin="10 0"
+        HorizontalAlignment="Stretch" >
+        <!-- Title -->
+        <TextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Text="{Binding Description}" />
+        <!-- Properties -->
+        <StackPanel
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Right" >
+            <TextBlock
+                Margin="20 0"
+                Text="{Binding TimeSpent}" />
+        </StackPanel>
+    </DockPanel>
+
+</UserControl>
