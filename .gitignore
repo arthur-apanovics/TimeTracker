@@ -3,6 +3,6 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-/API/time-tracker.db
+*/time-tracker.db
 /API.Tests/time-tracker-test.db
 .idea/

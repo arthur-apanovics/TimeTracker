@@ -17,19 +17,7 @@ namespace GUI.ViewModels
         public TaskViewModel? SelectedTask
         {
             get => _selectedTask;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _selectedTask, value);
-
-                ActivityListViewModel = new ActivityListViewModel(value?.Task);
-            }
-        }
-
-        public ActivityListViewModel? ActivityListViewModel
-        {
-            get => _activityListViewModel;
-            private set =>
-                this.RaiseAndSetIfChanged(ref _activityListViewModel, value);
+            set => this.RaiseAndSetIfChanged(ref _selectedTask, value);
         }
 
         public TaskListViewModel(TrackerRepository repository)

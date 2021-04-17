@@ -24,7 +24,7 @@ namespace GUI.ViewModels
         {
             _task = task;
 
-            foreach (var activity in _task.Activities)
+            foreach (var activity in _task?.Activities)
             {
                 Activities.Add(new ActivityViewModel(activity));
             }
@@ -32,7 +32,8 @@ namespace GUI.ViewModels
 
         public ActivityListViewModel()
         {
-            var descriptions = new[] {"One", "Two", "Three"};
+            var descriptions = new[]
+                {"Activity One", "Activity Two", "Activity Three"};
 
             foreach (var description in descriptions)
             {

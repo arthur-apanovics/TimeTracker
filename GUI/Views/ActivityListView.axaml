@@ -13,16 +13,18 @@
         <vm:ActivityListViewModel />
     </Design.DataContext>
 
-    <Panel>
-        <TextBlock
-            Text="Select a task to view it's activities"
-            IsVisible="{Binding IsTaskSelected}"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"/>
-        <ListBox
-            HorizontalAlignment="Stretch"
-            Items="{Binding Activities}"
-            Background="Transparent" />
-    </Panel>
+    <ScrollViewer>
+        <Panel>
+            <TextBlock
+                Text="Select a task to view it's activities"
+                IsVisible="{Binding IsTaskSelected}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+            <ListBox
+                HorizontalAlignment="Stretch"
+                Items="{Binding Activities}"
+                Background="Transparent" />
+        </Panel>
+    </ScrollViewer>
 
 </UserControl>

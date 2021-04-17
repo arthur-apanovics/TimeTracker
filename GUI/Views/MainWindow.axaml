@@ -21,10 +21,13 @@
         Margin="{Binding $parent[Window].WindowDecorationMargin}" >
         <v:AcrylicMaterial />
         <StackPanel
-            Orientation="Horizontal">
-                <v:TaskListView
-                    HorizontalAlignment="Right"
-                    DataContext="{Binding TaskListViewModel}" />
+            Orientation="Horizontal" >
+            <v:TaskListView
+                HorizontalAlignment="Left"
+                DataContext="{Binding TaskListViewModel}" />
+            <v:ActivityListView
+                HorizontalAlignment="Right"
+                DataContext="{Binding ActivityListViewModel}" />
         </StackPanel>
     </Panel>
 </Window>

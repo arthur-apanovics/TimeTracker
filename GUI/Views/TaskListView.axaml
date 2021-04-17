@@ -14,19 +14,12 @@
         <vm:TaskListViewModel />
     </Design.DataContext>
 
-    <DockPanel>
-        <ScrollViewer
-            DockPanel.Dock="Left" >
-            <ListBox
-                HorizontalAlignment="Stretch"
-                Items="{Binding Tasks}"
-                Background="Transparent"
-                SelectedItem="{Binding SelectedTask}" />
-        </ScrollViewer>
-        <ScrollViewer>
-            <v:ActivityListView
-                DataContext="{Binding ActivityListViewModel}" />
-        </ScrollViewer>
-    </DockPanel>
+    <ScrollViewer>
+        <ListBox
+            HorizontalAlignment="Stretch"
+            Items="{Binding Tasks}"
+            Background="Transparent"
+            SelectedItem="{Binding SelectedTask}" />
+    </ScrollViewer>
 
 </UserControl>
