@@ -17,17 +17,14 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Panel
-        Margin="{Binding $parent[Window].WindowDecorationMargin}" >
-        <v:AcrylicMaterial />
-        <StackPanel
-            Orientation="Horizontal" >
-            <v:TaskListView
-                HorizontalAlignment="Left"
-                DataContext="{Binding TaskListViewModel}" />
-            <v:ActivityListView
-                HorizontalAlignment="Right"
-                DataContext="{Binding ActivityListViewModel}" />
-        </StackPanel>
-    </Panel>
+    <DockPanel>
+        <v:TaskListView
+            DockPanel.Dock="Left"
+            DataContext="{Binding TaskListViewModel}"
+            Background="DarkGray" />
+        <v:ActivityListView
+            DataContext="{Binding ActivityListViewModel}"
+            Background="Gray" />
+    </DockPanel>
+
 </Window>

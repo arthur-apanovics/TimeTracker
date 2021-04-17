@@ -18,7 +18,6 @@
         <ListBox
             HorizontalAlignment="Stretch"
             Items="{Binding Tasks}"
-            Background="Transparent"
             SelectedItem="{Binding SelectedTask}" />
     </ScrollViewer>
 
