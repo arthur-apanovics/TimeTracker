@@ -8,6 +8,7 @@ namespace GUI.ViewModels
     public class TaskListViewModel : ViewModelBase
     {
         private readonly TrackerRepository _repository;
+
         public ObservableCollection<TaskViewModel> Tasks { get; } = new();
 
         [Reactive]

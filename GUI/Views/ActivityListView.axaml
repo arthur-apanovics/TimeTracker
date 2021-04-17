@@ -15,11 +15,13 @@
 
     <ScrollViewer>
         <Panel>
+            <!-- No task selected notification -->
             <TextBlock
                 Text="Select a task to view it's activities"
-                IsVisible="{Binding IsTaskSelected}"
+                IsVisible="{Binding Task, Converter={x:Static ObjectConverters.IsNull}}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
+            <!-- Activity list -->
             <ListBox
                 HorizontalAlignment="Stretch"
                 Items="{Binding Activities}"

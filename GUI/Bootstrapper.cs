@@ -20,15 +20,16 @@ namespace GUI
             );
 
             // view models
-            services.Register(() => new TaskViewModel());
             services.Register(
                 () => new TaskListViewModel(
                     resolver.GetRequiredService<TrackerRepository>()
                 )
             );
+            services.Register(() => new ActivityListViewModel());
             services.RegisterLazySingleton(
                 () => new MainWindowViewModel(
-                    resolver.GetRequiredService<TaskListViewModel>()
+                    resolver.GetRequiredService<TaskListViewModel>(),
+                    resolver.GetRequiredService<ActivityListViewModel>()
                 )
             );
         }

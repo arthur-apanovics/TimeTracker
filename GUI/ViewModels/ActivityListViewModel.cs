@@ -1,37 +1,48 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Avalonia.Controls;
 using GUI.Models;
 using GUI.Models.Interfaces;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace GUI.ViewModels
 {
     public class ActivityListViewModel : ViewModelBase
     {
-        private readonly ITrackerTask? _task;
-        private bool _isTaskSelected;
+        [Reactive]
+        public ITrackerTask? Task { get; set; }
 
         public ObservableCollection<ActivityViewModel> Activities { get; } =
             new();
 
-        [Reactive]
-        public bool IsTaskSelected { get; set; }
-
-        public ActivityListViewModel(ITrackerTask? task)
+        public ActivityListViewModel()
         {
-            _task = task;
+            if (Design.IsDesignMode) PopulateDesignTimeValues();
 
-            foreach (var activity in _task?.Activities)
-            {
-                Activities.Add(new ActivityViewModel(activity));
-            }
+            this.WhenAnyValue(x => x.Task)
+                .Subscribe(
+                    t =>
+                    {
+                        Activities.Clear();
+
+                        if (t?.Activities is null)
+                        {
+                            return;
+                        }
+
+                        foreach (var activity in t.Activities)
+                        {
+                            Activities.Add(new ActivityViewModel(activity));
+                        }
+                    }
+                );
         }
 
-        public ActivityListViewModel()
+        private void PopulateDesignTimeValues()
         {
             var descriptions = new[]
                 {"Activity One", "Activity Two", "Activity Three"};
-
             foreach (var description in descriptions)
             {
                 Activities.Add(

@@ -1,23 +1,25 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using System;
+using ReactiveUI;
 using Splat;
 
 namespace GUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ActivityListViewModel? _activityListViewModel;
         public TaskListViewModel TaskListViewModel { get; }
 
-        [Reactive]
-        public ActivityListViewModel? ActivityListViewModel
-        {
-            get;
-            private set;
-        }
+        public ActivityListViewModel? ActivityListViewModel { get; }
 
-        public MainWindowViewModel(TaskListViewModel taskListViewModel)
+        public MainWindowViewModel(
+            TaskListViewModel taskListViewModel,
+            ActivityListViewModel activityListViewModel
+        )
         {
             TaskListViewModel = taskListViewModel;
+            ActivityListViewModel = activityListViewModel;
+
+            this.WhenAnyValue(x => x.TaskListViewModel.SelectedTask)
+                .Subscribe(tvm => ActivityListViewModel.Task = tvm?.Task);
         }
 
         public MainWindowViewModel()
