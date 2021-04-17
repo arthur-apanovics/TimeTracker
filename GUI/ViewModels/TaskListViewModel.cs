@@ -1,24 +1,17 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
 using GUI.Data;
 using GUI.Models;
-using ReactiveUI;
-using Splat;
+using ReactiveUI.Fody.Helpers;
 
 namespace GUI.ViewModels
 {
     public class TaskListViewModel : ViewModelBase
     {
         private readonly TrackerRepository _repository;
-        private TaskViewModel? _selectedTask;
-        private ActivityListViewModel? _activityListViewModel;
         public ObservableCollection<TaskViewModel> Tasks { get; } = new();
 
-        public TaskViewModel? SelectedTask
-        {
-            get => _selectedTask;
-            set => this.RaiseAndSetIfChanged(ref _selectedTask, value);
-        }
+        [Reactive]
+        public TaskViewModel? SelectedTask { get; set; }
 
         public TaskListViewModel(TrackerRepository repository)
         {

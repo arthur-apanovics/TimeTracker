@@ -1,4 +1,4 @@
-﻿using ReactiveUI;
+﻿using ReactiveUI.Fody.Helpers;
 using Splat;
 
 namespace GUI.ViewModels
@@ -8,11 +8,11 @@ namespace GUI.ViewModels
         private ActivityListViewModel? _activityListViewModel;
         public TaskListViewModel TaskListViewModel { get; }
 
+        [Reactive]
         public ActivityListViewModel? ActivityListViewModel
         {
-            get => _activityListViewModel;
-            private set =>
-                this.RaiseAndSetIfChanged(ref _activityListViewModel, value);
+            get;
+            private set;
         }
 
         public MainWindowViewModel(TaskListViewModel taskListViewModel)

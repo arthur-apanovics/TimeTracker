@@ -22,6 +22,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="ReactiveUI.Fody" Version="13.2.18" />
     </ItemGroup>
     <ItemGroup>
       <Compile Update="Views\AcrylicMaterial.axaml.cs">

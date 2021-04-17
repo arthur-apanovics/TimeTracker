@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using GUI.Models;
 using GUI.Models.Interfaces;
-using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace GUI.ViewModels
 {
@@ -14,11 +14,8 @@ namespace GUI.ViewModels
         public ObservableCollection<ActivityViewModel> Activities { get; } =
             new();
 
-        public bool IsTaskSelected
-        {
-            get => _isTaskSelected;
-            set => this.RaiseAndSetIfChanged(ref _isTaskSelected, value);
-        }
+        [Reactive]
+        public bool IsTaskSelected { get; set; }
 
         public ActivityListViewModel(ITrackerTask? task)
         {
