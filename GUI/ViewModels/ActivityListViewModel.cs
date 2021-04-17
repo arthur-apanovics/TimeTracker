@@ -21,22 +21,22 @@ namespace GUI.ViewModels
             if (Design.IsDesignMode) PopulateDesignTimeValues();
 
             this.WhenAnyValue(x => x.Task)
-                .Subscribe(
-                    t =>
-                    {
-                        Activities.Clear();
+                .Subscribe(SetActivitiesFromTask);
+        }
 
-                        if (t?.Activities is null)
-                        {
-                            return;
-                        }
+        private void SetActivitiesFromTask(ITrackerTask? task)
+        {
+            Activities.Clear();
 
-                        foreach (var activity in t.Activities)
-                        {
-                            Activities.Add(new ActivityViewModel(activity));
-                        }
-                    }
-                );
+            if (task?.Activities is null)
+            {
+                return;
+            }
+
+            foreach (var activity in task.Activities)
+            {
+                Activities.Add(new ActivityViewModel(activity));
+            }
         }
 
         private void PopulateDesignTimeValues()
