@@ -8,17 +8,27 @@
     mc:Ignorable="d"
     d:DesignWidth="400"
     d:DesignHeight="600"
-    x:Class="GUI.Views.TaskListView">
+    x:Class="GUI.Views.TaskListView" >
 
     <Design.DataContext>
         <vm:TaskListViewModel />
     </Design.DataContext>
 
-    <ScrollViewer>
-        <ListBox
-            HorizontalAlignment="Stretch"
-            Items="{Binding Tasks}"
-            SelectedItem="{Binding SelectedTask}" />
-    </ScrollViewer>
+    <DockPanel>
+        <StackPanel
+            DockPanel.Dock="Top"
+            Orientation="Horizontal"
+            Margin="10" >
+            <Button
+                Command="{Binding CreateTask}"
+                Content="New" />
+        </StackPanel>
+        <ScrollViewer>
+            <ListBox
+                HorizontalAlignment="Stretch"
+                Items="{Binding Tasks}"
+                SelectedItem="{Binding SelectedTask}" />
+        </ScrollViewer>
+    </DockPanel>
 
 </UserControl>

@@ -1,0 +1,32 @@
+﻿<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:GUI.ViewModels"
+    mc:Ignorable="d"
+    Width="400"
+    Height="80"
+    x:Class="GUI.Views.TextBoxDialogWindow"
+    SystemDecorations="None"
+    ShowInTaskbar="False"
+    WindowStartupLocation="CenterOwner" >
+
+    <Design.DataContext>
+        <vm:TextBoxDialogViewModel />
+    </Design.DataContext>
+
+    <DockPanel
+        Margin="20" >
+        <Button
+            DockPanel.Dock="Right"
+            Margin="20 0 0 0"
+            Content="OK"
+            Command="{Binding ReturnTextValue}" />
+        <TextBox
+            Name="InputBox"
+            Text="{Binding TextValue}"
+            Watermark="Enter task name..."
+            AcceptsReturn="False"/>
+    </DockPanel>
+</Window>

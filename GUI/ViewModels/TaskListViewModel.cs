@@ -1,6 +1,12 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Windows.Input;
+using Avalonia.Controls;
 using GUI.Data;
 using GUI.Models;
+using GUI.Views;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace GUI.ViewModels
@@ -14,6 +20,11 @@ namespace GUI.ViewModels
         [Reactive]
         public TaskViewModel? SelectedTask { get; set; }
 
+        public Interaction<TextBoxDialogViewModel, string?>
+            TextBoxModalInteraction { get; }
+
+        public ICommand CreateTask { get; }
+
         public TaskListViewModel(TrackerRepository repository)
         {
             _repository = repository;
@@ -22,6 +33,23 @@ namespace GUI.ViewModels
             {
                 Tasks.Add(new TaskViewModel(task));
             }
+
+            TextBoxModalInteraction =
+                new Interaction<TextBoxDialogViewModel, string?>();
+
+            CreateTask = ReactiveCommand.CreateFromTask(
+                async () =>
+                {
+                    var viewModel = new TextBoxDialogViewModel();
+                    var result =
+                        await TextBoxModalInteraction.Handle(viewModel);
+
+                    if (!string.IsNullOrWhiteSpace(result))
+                    {
+                        // TODO: do stuff
+                    }
+                }
+            );
         }
 
         public TaskListViewModel()
