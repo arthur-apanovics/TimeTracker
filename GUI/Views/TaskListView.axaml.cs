@@ -1,18 +1,26 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using GUI.ViewModels;
 
 namespace GUI.Views
 {
-    public class TaskListView : UserControl
+    public class TaskListView : ViewBase<TaskListViewModel>
     {
         public TaskListView()
         {
-            InitializeComponent();
+            AvaloniaXamlLoader.Load(this);
+            base.InitializeComponent();
         }
 
-        private void InitializeComponent()
+        protected override void RegisterEvents(CompositeDisposable disposables)
         {
-            AvaloniaXamlLoader.Load(this);
+            this.Events()
+                .KeyDown.Where(args => args.Key == Key.Escape)
+                .Subscribe(_ => ViewModel.SelectedTask = null)
+                .DisposeWith(disposables);
         }
     }
 }

@@ -25,6 +25,7 @@
             <ListBox
                 HorizontalAlignment="Stretch"
                 Items="{Binding Activities}"
+                SelectedItem="{Binding SelectedActivity}"
                 Background="Transparent" />
         </Panel>
     </ScrollViewer>

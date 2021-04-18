@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     d:DesignWidth="400"
     d:DesignHeight="600"
-    x:Class="GUI.Views.TaskListView" >
+    x:Class="GUI.Views.TaskListView">
 
     <Design.DataContext>
         <vm:TaskListViewModel />

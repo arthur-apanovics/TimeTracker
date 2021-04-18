@@ -19,6 +19,7 @@
 
     <DockPanel>
         <v:TaskListView
+            Name="TaskControlName"
             DockPanel.Dock="Left"
             DataContext="{Binding TaskListViewModel}"
             Background="DarkGray" />

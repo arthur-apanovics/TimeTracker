@@ -1,18 +1,38 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using GUI.ViewModels;
 
 namespace GUI.Views
 {
-    public class ActivityListView : UserControl
+    public class ActivityListView : ViewBase<ActivityListViewModel>
     {
         public ActivityListView()
         {
-            InitializeComponent();
+            AvaloniaXamlLoader.Load(this);
+            base.InitializeComponent();
         }
 
-        private void InitializeComponent()
+        protected override void RegisterEvents(CompositeDisposable disposables)
         {
-            AvaloniaXamlLoader.Load(this);
+            this.Events()
+                .KeyDown.Where(args => args.Key == Key.Escape)
+                .Subscribe(
+                    _ =>
+                    {
+                        ViewModel.SelectedActivity = null;
+
+                        // TODO: shift focus to selected task
+                        // var focusTarget = this.FindAncestorOfType<MainWindow>()
+                        //     .FindDescendantOfType<TaskListView>()
+                        //     .FindDescendantOfType<ListBox>()
+                        //     .SelectedItem;
+                        // FocusManager.Instance.Focus(focusTarget);
+                    }
+                )
+                .DisposeWith(disposables);
         }
     }
 }

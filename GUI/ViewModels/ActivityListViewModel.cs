@@ -16,12 +16,14 @@ namespace GUI.ViewModels
         public ObservableCollection<ActivityViewModel> Activities { get; } =
             new();
 
+        [Reactive]
+        public ActivityViewModel? SelectedActivity { get; set; }
+
         public ActivityListViewModel()
         {
             if (Design.IsDesignMode) PopulateDesignTimeValues();
 
-            this.WhenAnyValue(x => x.Task)
-                .Subscribe(SetActivitiesFromTask);
+            this.WhenAnyValue(x => x.Task).Subscribe(SetActivitiesFromTask);
         }
 
         private void SetActivitiesFromTask(ITrackerTask? task)
