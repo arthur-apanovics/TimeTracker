@@ -2,13 +2,12 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.ReactiveUI;
 using Avalonia.VisualTree;
 using ReactiveUI;
 
-namespace GUI.Views
+namespace GUI.Views.Controls
 {
     public class ViewBase<TViewModel> : ReactiveUserControl<TViewModel>
         where TViewModel : class
@@ -28,6 +27,11 @@ namespace GUI.Views
             this.WhenActivated(RegisterEvents);
         }
 
+        /// <summary>
+        /// Registers event sequences for this view
+        /// </summary>
+        /// <param name="disposables"></param>
+        /// <see href="https://www.reactiveui.net/docs/handbook/events"/>
         protected virtual void RegisterEvents(CompositeDisposable disposables)
         {
             var elementEvents = this.Events();

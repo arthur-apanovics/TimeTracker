@@ -7,9 +7,10 @@ using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
 using GUI.ViewModels;
+using GUI.Views.Windows;
 using ReactiveUI;
 
-namespace GUI.Views
+namespace GUI.Views.Controls
 {
     public class TaskListView : ViewBase<TaskListViewModel>
     {

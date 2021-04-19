@@ -7,7 +7,7 @@
     mc:Ignorable="d"
     d:DesignWidth="450"
     d:DesignHeight="450"
-    x:Class="GUI.Views.ActivityListView" >
+    x:Class="GUI.Views.Controls.ActivityListView" >
 
     <Design.DataContext>
         <vm:ActivityListViewModel />

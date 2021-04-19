@@ -33,6 +33,30 @@
       <Compile Update="Views\AcrylicMaterial.axaml.cs">
         <DependentUpon>Acrylic.axaml</DependentUpon>
       </Compile>
+      <Compile Update="Views\Controls\ActivityListView.axaml.cs">
+        <DependentUpon>ActivityListView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Controls\ActivityView.axaml.cs">
+        <DependentUpon>ActivityView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Controls\TaskView.axaml.cs">
+        <DependentUpon>TaskView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Controls\TaskListView.axaml.cs">
+        <DependentUpon>TaskListView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Windows\MainWindow.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Windows\TextBoxDialogWindow.axaml.cs">
+        <DependentUpon>TextBoxDialogWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
     <ItemGroup>
       <None Update="time-tracker-seeded.db">

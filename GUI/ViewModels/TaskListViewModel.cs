@@ -1,11 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
-using Avalonia.Controls;
 using GUI.Data;
 using GUI.Models;
-using GUI.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 

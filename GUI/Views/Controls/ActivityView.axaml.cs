@@ -1,11 +1,11 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace GUI.Views
+namespace GUI.Views.Controls
 {
-    public class TaskView : UserControl
+    public class ActivityView : UserControl
     {
-        public TaskView()
+        public ActivityView()
         {
             InitializeComponent();
         }

@@ -7,11 +7,10 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using Avalonia.VisualTree;
 using GUI.ViewModels;
 using ReactiveUI;
 
-namespace GUI.Views
+namespace GUI.Views.Windows
 {
     public class TextBoxDialogWindow : ReactiveWindow<TextBoxDialogViewModel>
     {
@@ -27,20 +26,9 @@ namespace GUI.Views
         {
             AvaloniaXamlLoader.Load(this);
 
-            // this.WhenActivated(
-            //     disposables => ViewModel.ReturnTextValue
-            //         .Subscribe(s => Close(s))
-            //         .DisposeWith(disposables)
-            // );
-
             this.WhenActivated(RegisterEvents);
         }
 
-        /// <summary>
-        /// Registers event sequences for this view
-        /// </summary>
-        /// <param name="disposables"></param>
-        /// <see href="https://www.reactiveui.net/docs/handbook/events"/>
         protected virtual void RegisterEvents(CompositeDisposable disposables)
         {
             var elementEvents = this.Events();

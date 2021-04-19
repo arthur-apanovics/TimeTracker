@@ -1,13 +1,17 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace GUI.Views
+namespace GUI.Views.Windows
 {
-    public class ActivityView : UserControl
+    public class MainWindow : Window
     {
-        public ActivityView()
+        public MainWindow()
         {
             InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
         }
 
         private void InitializeComponent()

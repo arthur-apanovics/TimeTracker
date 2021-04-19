@@ -5,7 +5,7 @@ using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using GUI.ViewModels;
 
-namespace GUI.Views
+namespace GUI.Views.Controls
 {
     public class ActivityListView : ViewBase<ActivityListViewModel>
     {
