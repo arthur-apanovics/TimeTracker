@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:GUI.ViewModels"
+    xmlns:controls="clr-namespace:GUI.ViewModels.Controls"
     mc:Ignorable="d"
     d:DesignWidth="400"
     d:DesignHeight="50"
@@ -12,7 +12,7 @@
     HorizontalContentAlignment="Stretch" >
 
     <Design.DataContext>
-        <vm:TaskViewModel />
+        <controls:TaskViewModel />
     </Design.DataContext>
 
     <DockPanel

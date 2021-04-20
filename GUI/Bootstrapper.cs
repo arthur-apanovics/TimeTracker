@@ -1,6 +1,7 @@
 ﻿using System;
 using GUI.Data;
-using GUI.ViewModels;
+using GUI.ViewModels.Controls;
+using GUI.ViewModels.Windows;
 using Splat;
 
 namespace GUI

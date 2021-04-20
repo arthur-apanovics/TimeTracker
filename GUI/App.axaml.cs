@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using GUI.ViewModels;
+using GUI.ViewModels.Windows;
 using GUI.Views.Windows;
 using Splat;
 

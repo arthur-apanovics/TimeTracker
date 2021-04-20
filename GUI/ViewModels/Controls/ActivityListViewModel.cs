@@ -6,7 +6,7 @@ using GUI.Models.Interfaces;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace GUI.ViewModels
+namespace GUI.ViewModels.Controls
 {
     public class ActivityListViewModel : ViewModelBase
     {

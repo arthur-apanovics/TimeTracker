@@ -1,8 +1,9 @@
 ﻿using System;
+using GUI.ViewModels.Controls;
 using ReactiveUI;
 using Splat;
 
-namespace GUI.ViewModels
+namespace GUI.ViewModels.Windows
 {
     public class MainWindowViewModel : ViewModelBase
     {

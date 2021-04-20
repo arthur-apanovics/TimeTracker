@@ -3,7 +3,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using GUI.ViewModels;
+using GUI.ViewModels.Controls;
 
 namespace GUI.Views.Controls
 {

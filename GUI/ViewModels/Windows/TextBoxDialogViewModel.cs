@@ -5,7 +5,7 @@ using ReactiveUI.Validation.Abstractions;
 using ReactiveUI.Validation.Contexts;
 using ReactiveUI.Validation.Extensions;
 
-namespace GUI.ViewModels
+namespace GUI.ViewModels.Windows
 {
     public class TextBoxDialogViewModel : ViewModelBase, IValidatableViewModel
     {
@@ -20,8 +20,8 @@ namespace GUI.ViewModels
         {
             this.ValidationRule(
                 x => x.TextValue,
-                name => !string.IsNullOrWhiteSpace(name),
-                "Task should have a name"
+                value => !string.IsNullOrWhiteSpace(value),
+                "Please specify a value"
             );
 
             ReturnTextValue = ReactiveCommand.Create(

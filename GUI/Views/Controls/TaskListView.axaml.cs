@@ -6,7 +6,8 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
-using GUI.ViewModels;
+using GUI.ViewModels.Controls;
+using GUI.ViewModels.Windows;
 using GUI.Views.Windows;
 using ReactiveUI;
 

@@ -2,7 +2,7 @@
 using GUI.Models;
 using GUI.Models.Interfaces;
 
-namespace GUI.ViewModels
+namespace GUI.ViewModels.Controls
 {
     public class TaskViewModel : ViewModelBase
     {

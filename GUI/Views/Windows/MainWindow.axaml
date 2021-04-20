@@ -1,10 +1,10 @@
 <Window
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:vm="using:GUI.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:v="clr-namespace:GUI.Views.Controls"
+    xmlns:windows="clr-namespace:GUI.ViewModels.Windows"
     mc:Ignorable="d"
     Width="800"
     Height="600"
@@ -14,7 +14,7 @@
     CanResize="True" >
 
     <Design.DataContext>
-        <vm:MainWindowViewModel />
+        <windows:MainWindowViewModel />
     </Design.DataContext>
 
     <DockPanel>
